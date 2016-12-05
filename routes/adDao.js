@@ -1,4 +1,6 @@
+var Promise = require('bluebird');
 var mongoose = require('mongoose');
+Promise.promisifyAll(mongoose);
 mongoose.connect('mongodb://unicom:unicom3#@localhost/health720');
 
 var ddSchema = mongoose.Schema({
@@ -79,22 +81,28 @@ var ddSchema = mongoose.Schema({
 
 });
 
-var queryData= {
-    getresult : function(callback){
-        var db = mongoose.connection;
-        db.on('error', console.error.bind(console,'connection error:'));
-        var ddModel = db.model('devicedata', ddSchema);
+var db = mongoose.connection;
+var ddModel = db.model('devicedata', ddSchema);
 
-        var query = ddModel.find({}, function(error, result){
-            if(error){
-                console.log(error);
-            }else {
-                //   console.log(" " + result);
-                console.log("hahahah");
-                callback(result);
-            }
-        });
-    }
+
+module.exports.deviceData = ddModel;
+
+
+var getresult = function(callback){
+    var db = mongoose.connection;
+    db.on('error', console.error.bind(console,'connection error:'));
+    var ddModel = db.model('devicedata', ddSchema);
+
+    var query = ddModel.find({}, function(error, result){
+        if(error){
+            console.log(error);
+        }else {
+            //   console.log(" " + result);
+            callback(result);
+        }
+    });
 }
 
-module.exports = queryData;
+
+
+module.exports.getdata = getresult;

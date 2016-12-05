@@ -6,9 +6,15 @@ var query = require('./adDao.js');
 router.get('/', function(req, res, next) {
 //  res.render('index', { title: 'Express' });
     var result;
-    query.getresult(function(result)
+/*    query.getdata(function(result)
     {
         res.render('index', {body: result});
+    })
+    */
+    query.deviceData.find().limit(1).sort({latestUploadTime:-1}).exec().then(function(results){
+        res.render('index', {body: results});
+    }).catch(function(err){
+        //do something
     })
 });
 

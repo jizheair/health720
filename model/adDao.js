@@ -1,7 +1,7 @@
 var Promise = require('bluebird');
 var mongoose = require('mongoose');
 Promise.promisifyAll(mongoose);
-mongoose.connect('mongodb://unicom:unicom3#@localhost/health720');
+mongoose.connect('mongodb://unicom:unicom3#@61.148.212.68/health720');
 
 var ddSchema = mongoose.Schema({
     storageName: String,
